@@ -18,14 +18,18 @@ export default function TaskList () {
     Axios.post('http://localhost:3001/tasks', {
       title,
       description,
-      status
+      status,
+      createdAt: new Date(),
+      updatedAt: new Date()
     }).then((response) => {
       setTasks([
         ...tasks,
         {
           title,
           description,
-          status
+          status,
+          createdAt: new Date(),
+          updatedAt: new Date()
         }
       ])
     })
@@ -56,12 +60,14 @@ export default function TaskList () {
         {tasks.map((task, index) => {
           return (
             <TaskItem
-          key={index}
-          id={task._id}
-          title={task.title}
-          description={task.description}
-          status={task.status}
-        />
+              key={index}
+              id={task._id}
+              title={task.title}
+              description={task.description}
+              status={task.status}
+              createdAt={task.createdAt}
+              updatedAt={task.updatedAt}
+            />
           )
         })}
       </div>

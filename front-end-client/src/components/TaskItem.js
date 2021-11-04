@@ -7,7 +7,9 @@ export default function TaskItem ({
   id,
   title,
   description,
-  status
+  status,
+  createdAt,
+  updatedAt
 }) {
   const [isEditing, setIsEditing] = useState(false)
 
@@ -30,7 +32,8 @@ export default function TaskItem ({
         <h4>{title}</h4>
         <h4>{description}</h4>
         <h4>{status}</h4>
-        <h4>{id}</h4>
+        <h4>{createdAt}</h4>
+        <h4>{updatedAt}</h4>
         { (isEditing === false)
           ? null
           : (
@@ -52,5 +55,7 @@ TaskItem.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired
+  status: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  updatedAt: PropTypes.string.isRequired
 }
