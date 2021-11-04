@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
+import TaskItem from './TaskItem'
 
 export default function TaskList () {
   const [tasks, setTasks] = useState([])
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [status, setStatus] = useState('pendente')
 
   useEffect(() => {
     Axios.get('http://localhost:3001/tasks').then((response) => {
@@ -15,13 +17,15 @@ export default function TaskList () {
   const createTask = () => {
     Axios.post('http://localhost:3001/tasks', {
       title,
-      description
+      description,
+      status
     }).then((response) => {
       setTasks([
         ...tasks,
         {
           title,
-          description
+          description,
+          status
         }
       ])
     })
@@ -42,6 +46,7 @@ export default function TaskList () {
           placeholder="Descrição..."
           onChange={(event) => {
             setDescription(event.target.value)
+            setStatus('pendente')
           }}
         />
         <button onClick={createTask}> Criar Nova Tarefa </button>
@@ -50,13 +55,13 @@ export default function TaskList () {
       <div>
         {tasks.map((task, index) => {
           return (
-            <div key={index}>
-              <h4>Título: {task.title}</h4>
-              <h4>Descrição: {task.description}</h4>
-              <h4>Criado em: {task.createdAt}</h4>
-              <h4>Atualizado em: {task.updatedAt}</h4>
-              <br></br>
-            </div>
+            <TaskItem
+          key={task.index}
+          index={task.index}
+          title={task.title}
+          description={task.description}
+          status={task.status}
+        />
           )
         })}
       </div>
