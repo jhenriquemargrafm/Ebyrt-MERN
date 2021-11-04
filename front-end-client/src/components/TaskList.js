@@ -56,8 +56,8 @@ export default function TaskList () {
         {tasks.map((task, index) => {
           return (
             <TaskItem
-          key={task.index}
-          index={task.index}
+          key={index}
+          id={task._id}
           title={task.title}
           description={task.description}
           status={task.status}
