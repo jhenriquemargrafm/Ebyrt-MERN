@@ -3,6 +3,9 @@ const app = express();
 const mongoose = require("mongoose");
 const taskRouter = require('./router/taskRouter');
 
+const cors = require("cors");
+app.use(cors());
+
 mongoose.connect(
   "mongodb+srv://userjhmm:7HD23EQTw2ZwvdP@cluster0.49a0f.mongodb.net/mern?retryWrites=true&w=majority"
 );
