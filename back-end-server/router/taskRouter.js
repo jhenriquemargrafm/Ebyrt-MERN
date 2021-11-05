@@ -25,13 +25,14 @@ router.post("/", async (req, res) => {
 
 // Editar uma tarefa no banco
 router.put('/', async (req, res) => {
-  const {id, currentTitle, currentDescription, currentStatus }= req.body;
+  const {id, currentTitle, currentDescription, currentStatus, updatedAt }= req.body;
   try {
     await taskModel.updateOne(
       { _id: id }, 
       { $set: { title: currentTitle, 
         description: currentDescription, 
-        status: currentStatus }
+        status: currentStatus,
+        updatedAt }
       })
     res.status(200).json({message: "A tarefa foi atualizada!"});
   } catch (error) {

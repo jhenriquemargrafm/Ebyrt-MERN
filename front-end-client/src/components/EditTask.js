@@ -27,7 +27,9 @@ export default function TaskItem ({
   }
 
   const updateTask = () => {
-    Axios.put('http://localhost:3001/tasks', { id, currentTitle, currentDescription, currentStatus })
+    const updatedAt = new Date()
+    Axios.put('http://localhost:3001/tasks',
+      { id, currentTitle, currentDescription, currentStatus, updatedAt })
     window.location.reload()
   }
 

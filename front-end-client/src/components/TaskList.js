@@ -8,17 +8,22 @@ export default function TaskList () {
   const [description, setDescription] = useState('')
   const [status, setStatus] = useState('pendente')
 
+  const [checkedA, setCheckedA] = useState(false)
+  const [checkedC, setCheckedC] = useState(false)
+  const [checkedS, setCheckedS] = useState(false)
+
   useEffect(() => {
-    Axios.get('http://localhost:3001/tasks').then((response) => {
-      setTasks(response.data)
-    })
+    Axios.get('http://localhost:3001/tasks')
+      .then((response) => { setTasks(response.data) })
   }, [])
 
   const createTask = () => {
     Axios.post('http://localhost:3001/tasks', {
       title,
       description,
-      status
+      status,
+      createdAt: new Date(),
+      updatedAt: new Date()
     }).then((response) => {
       setTasks([
         ...tasks,
@@ -29,10 +34,68 @@ export default function TaskList () {
         }
       ])
     })
+    window.location.reload()
+  }
+
+  const handleSortA = (e) => {
+    setCheckedA(e.target.checked)
+    if (checkedA !== true) {
+      function compare (a, b) {
+        if (a.title < b.title) {
+          return -1
+        }
+        if (a.title > b.title) {
+          return 1
+        }
+        return 0
+      }
+      setTasks(tasks.sort(compare))
+    }
+  }
+
+  const handleSortC = (e) => {
+    setCheckedC(e.target.checked)
+    if (checkedC !== true) {
+      function compare (a, b) {
+        if (a.createdAt < b.createdAt) {
+          return -1
+        }
+        if (a.createdAt > b.createdAt) {
+          return 1
+        }
+        return 0
+      }
+      setTasks(tasks.sort(compare))
+    }
+  }
+
+  const handleSortS = (e) => {
+    setCheckedS(e.target.checked)
+    if (checkedS !== true) {
+      function compare (a, b) {
+        if (a.status < b.status) {
+          return 1
+        }
+        if (a.status > b.status) {
+          return -1
+        }
+        return 0
+      }
+      setTasks(tasks.sort(compare))
+    }
   }
 
   return (
     <div>
+      Opções de ordenação
+      <div>
+        <input type="checkbox" onChange={handleSortA} name="alphabet" value={checkedA}></input>
+        <label htmlFor="alphabet">Ordem Alfabética</label>
+        <input type="checkbox" onChange={handleSortC} name="creationDate" value={checkedC}></input>
+        <label htmlFor="creationDate">Data de Criação</label>
+        <input type="checkbox" onChange={handleSortS} name="status" value={checkedS}></input>
+        <label htmlFor="creationDate">status</label>
+      </div>
       <div>
         <input
           type="text"
@@ -51,17 +114,18 @@ export default function TaskList () {
         />
         <button onClick={createTask}> Criar Nova Tarefa </button>
       </div>
-
       <div>
         {tasks.map((task, index) => {
           return (
             <TaskItem
-          key={index}
-          id={task._id}
-          title={task.title}
-          description={task.description}
-          status={task.status}
-        />
+              key={index}
+              id={task._id}
+              title={task.title}
+              description={task.description}
+              status={task.status}
+              createdAt={task.createdAt}
+              updatedAt={task.updatedAt}
+            />
           )
         })}
       </div>

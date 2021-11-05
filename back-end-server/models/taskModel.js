@@ -12,6 +12,14 @@ const taskSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
+  },
+  createdAt: {
+    type: String,
+    required: true,
+  },
+  updatedAt: {
+    type: String,
+    required: true,
   }
 });
 
