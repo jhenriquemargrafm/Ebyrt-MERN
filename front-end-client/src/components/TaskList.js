@@ -10,6 +10,7 @@ export default function TaskList () {
 
   const [checkedA, setCheckedA] = useState(false)
   const [checkedC, setCheckedC] = useState(false)
+  const [checkedS, setCheckedS] = useState(false)
 
   useEffect(() => {
     Axios.get('http://localhost:3001/tasks')
@@ -68,6 +69,22 @@ export default function TaskList () {
     }
   }
 
+  const handleSortS = (e) => {
+    setCheckedS(e.target.checked)
+    if (checkedS !== true) {
+      function compare (a, b) {
+        if (a.status < b.status) {
+          return 1
+        }
+        if (a.status > b.status) {
+          return -1
+        }
+        return 0
+      }
+      setTasks(tasks.sort(compare))
+    }
+  }
+
   return (
     <div>
       Opções de ordenação
@@ -76,12 +93,8 @@ export default function TaskList () {
         <label htmlFor="alphabet">Ordem Alfabética</label>
         <input type="checkbox" onChange={handleSortC} name="creationDate" value={checkedC}></input>
         <label htmlFor="creationDate">Data de Criação</label>
-        <select>
-          <option value="todas">Todas</option>
-          <option value="pendente">Pendente</option>
-          <option value="fazendo">Fazendo</option>
-          <option value="completa">Completa</option>
-        </select>
+        <input type="checkbox" onChange={handleSortS} name="status" value={checkedS}></input>
+        <label htmlFor="creationDate">status</label>
       </div>
       <div>
         <input
